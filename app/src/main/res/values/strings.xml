@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Kalculations</string>
+    <string name="kalculations">KALCULATIONS</string>
+    <string name="time_00">TIME :00</string>
+    <string name="score_00">SCORE :00</string>
+    <string name="_23_43">23+43</string>
+    <string name="_66">=66</string>
+</resources>

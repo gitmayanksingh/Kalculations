@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D1D3D4"
+    tools:context="com.example.mayk.kalculations.MainActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    >
+
+    <ImageButton
+        android:src="@drawable/ic_done_white_24dp"
+        android:id="@+id/right"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="40"
+        android:padding="5dp"
+        android:layout_margin="2dp"
+        android:background="#CA171B"
+        />
+    <ImageButton
+        android:src="@drawable/ic_close_white_24dp"
+        android:id="@+id/wrong"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="40"
+        android:padding="5dp"
+        android:layout_margin="2dp"
+        android:background="#CA171B"
+       />
+
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/time_00"
+            android:textColor="#CA171B"
+            android:textSize="24sp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/score_00"
+            android:textColor="#CA171B"
+            android:textSize="24sp"
+            android:gravity="right"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/_23_43"
+        android:textSize="35sp"/>
+    <TextView
+        android:id="@+id/answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/question"
+        android:text="@string/_66"
+        android:layout_centerHorizontal="true"
+        android:textSize="35sp"/>
+
+</RelativeLayout>
