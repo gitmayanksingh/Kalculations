@@ -1,36 +1,64 @@
 package com.example.mayk.kalculations;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+
 import android.widget.TextView;
 import android.widget.Toast;
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class Back extends AppCompatActivity {
 
     ImageButton Replay_btn;
     TextView sum;
     ImageButton shareafter;
+    File imagePath;
+    ImageView bmImage;
+    Bitmap bitmap;
+   View screen;
+    TextView highscore;
+    TextView sum_n;
+    TextView highscore_n;
+
+    private static final String TAG = "MyActivity";
+    public static final String  PREFS_SCORE = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_back);
+
+       screen = findViewById(R.id.screen);
         Replay_btn = (ImageButton) findViewById(R.id.replay);
         shareafter = (ImageButton) findViewById(R.id.shareafter);
+        highscore = (TextView) findViewById(R.id.highscore);
+        highscore_n = (TextView) findViewById(R.id.highscore_n);
+
         shareafter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my new best Score in KALCULATIONS.Do you want to give a try ?");
-                sendIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sendIntent, "Share via .."));
+                Bitmap bitmap = takeScreenshot();
+                saveBitmap(bitmap);
+                shareIt();
             }
         });
         sum = (TextView) findViewById(R.id.sum);
+        sum_n = (TextView) findViewById(R.id.sum_n);
 
         Bundle extras = getIntent().getExtras();
         if (extras == null) {
@@ -39,7 +67,8 @@ public class Back extends AppCompatActivity {
 // get data via the key
         Bundle b = getIntent().getExtras();
         int index = b.getInt("index");
-        sum.setText(" SUM: "+index);
+        sum_n.setText(""+index);
+
 
         Replay_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +77,62 @@ public class Back extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        // For saving HIGH SCORE
+        SharedPreferences sharedPreferences =getSharedPreferences(PREFS_SCORE,MODE_PRIVATE);
+        String high =sharedPreferences.getString("High Score","");
+        highscore_n.setText(high);
+
+
     }
+// To take the screenshot
+
+    public Bitmap takeScreenshot() {
+        View rootView = findViewById(android.R.id.content).getRootView();
+        rootView.setDrawingCacheEnabled(true);
+         bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+        return bitmap;
+
+    }
+// To save in the the local directory
+
+    public void saveBitmap(Bitmap bitmap) {
+        imagePath = new File(Environment.getExternalStorageDirectory() + "/screenshot.png");
+        FileOutputStream fos;
+        try {
+            fos = new FileOutputStream(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);// Compressing in JPEG format
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            Log.e("TAG", e.getMessage(), e);
+        } catch (IOException e) {
+            Log.e("TAG", e.getMessage(), e);
+        }
+    }
+// To share using Sharing Intent via share button
+
+    private void shareIt() {
+        Uri uri = Uri.fromFile(imagePath);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/*");
+        String shareBody = "In Kalculations , My highest score with screen shot";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Kalculations score");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+    }
+
+    @Override
+protected void onDestroy()
+    {
+        SharedPreferences sharedPreferences =getSharedPreferences(PREFS_SCORE,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("High Score",sum_n.getText().toString());
+        editor.apply();
+        super.onDestroy();
+        Toast.makeText(this, "Thanks ! for playing", Toast.LENGTH_SHORT).show();
+    }
+
 
 }

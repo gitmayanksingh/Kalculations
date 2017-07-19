@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 C.setText("TIME :" + seconds);
                 seconds--;
                 if (seconds < 0) {
+
                     Intent i = new Intent(MainActivity.this, Back.class);
                     Bundle bundle = new Bundle();
                     bundle.putInt("index", s);

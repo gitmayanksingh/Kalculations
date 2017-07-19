@@ -14,9 +14,9 @@ public class Front extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front);
 
-        B1 = (ImageButton) findViewById(R.id.share);
+        B1 = (ImageButton) findViewById(R.id.trophy);
         B2 = (ImageButton) findViewById(R.id.play);
-        B3 = (ImageButton) findViewById(R.id.rate);
+        B3 = (ImageButton) findViewById(R.id.setting);
 
         B2.setOnClickListener(new View.OnClickListener() {
             @Override

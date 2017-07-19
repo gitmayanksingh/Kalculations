@@ -5,23 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mayk.kalculations.Back"
-    android:background="#D1D3D4"
-    android:gravity="center">
+    android:background="#FFFFFF"
+    android:gravity="center"
+    android:id="@+id/screen">
 
     <TextView
         android:id="@+id/sum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SUM :14"
-        android:textSize="40sp"
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout"
+        android:text="SUM :"
         android:textColor="#CA171B"
-        />
+        android:textSize="40sp" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sum"
         android:padding="6dp"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:id="@+id/linearLayout">
 
         <ImageButton
             style="@style/imagebutton_style"
@@ -44,5 +47,44 @@
             android:layout_margin="8dp"
             />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/highscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Score:"
+        android:textStyle="italic"
+        android:textSize="30sp"
+        android:textColor="#CA171B"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignLeft="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/highscore_n"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#CA171B"
+        android:textSize="30sp"
+        android:layout_alignBaseline="@+id/highscore"
+        android:layout_alignBottom="@+id/highscore"
+        android:layout_toRightOf="@+id/highscore"
+        android:layout_toEndOf="@+id/highscore"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp" />
+
+    <TextView
+        android:id="@+id/sum_n"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="#CA171B"
+        android:textSize="40sp"
+        android:layout_above="@+id/linearLayout"
+        android:layout_toRightOf="@+id/sum"
+        android:layout_toEndOf="@+id/sum" />
+
 
 </RelativeLayout>
