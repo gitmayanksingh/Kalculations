@@ -116,7 +116,7 @@ public class Back extends AppCompatActivity {
     }
 // To take the screenshot
 
-    public Bitmap takeScreenshot() {
+    private Bitmap takeScreenshot() {
         View rootView = findViewById(android.R.id.content).getRootView();
         rootView.setDrawingCacheEnabled(true);
         bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
@@ -125,7 +125,7 @@ public class Back extends AppCompatActivity {
     }
 // To save in the the local directory
 
-    public void saveBitmap(Bitmap bitmap) {
+    private void saveBitmap(Bitmap bitmap) {
         imagePath = new File(Environment.getExternalStorageDirectory() + "/screenshot.png");
         FileOutputStream fos;
         try {
@@ -149,7 +149,7 @@ public class Back extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Kalculations score");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-
+        sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 // On Destroy Event

@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean stopTimer = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     // Function timmer() handle the timer
 
     private void timmer() {
@@ -71,16 +73,18 @@ public class MainActivity extends AppCompatActivity {
                 if (seconds < 0) {
 
                     // Sends Intent to Back.class with a Bundle containing the Score ie 's'
+                  if(true == isResultRight) {
+                      Intent i = new Intent(MainActivity.this, Back.class);
+                      Bundle bundle = new Bundle();
+                      bundle.putInt("index", s);
+                      i.putExtras(bundle);
+                      startActivity(i);
 
-                    Intent i = new Intent(MainActivity.this, Back.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("index", s);
-                    i.putExtras(bundle);
-                    startActivity(i);
+                      //  Sends the intent and stop the timer
+                      stopTimer = true;
+                  }else{
 
-                    //  Sends the intent and stop the timer
-
-                    stopTimer = true;
+                  }
                 }
                 if (stopTimer == false) {
                     handler.postDelayed(this, 1000);
