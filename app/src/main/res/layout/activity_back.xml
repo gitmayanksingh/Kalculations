@@ -1,90 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.mayk.kalculations.Back"
-    android:background="#FFFFFF"
+
     android:gravity="center"
-    android:id="@+id/screen">
+    android:id="@+id/screen"
+    tools:layout_editor_absoluteY="25dp"
+    tools:layout_editor_absoluteX="0dp">
 
     <TextView
         android:id="@+id/sum"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout"
-        android:text="SUM :"
+        android:layout_height="47dp"
+        android:layout_below="@+id/gameover_txt"
+        android:text="SUM"
         android:textColor="#CA171B"
-        android:textSize="40sp" />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sum"
-        android:padding="6dp"
-        android:layout_margin="5dp"
-        android:id="@+id/linearLayout">
-
-        <ImageButton
-            style="@style/imagebutton_style"
-            android:layout_height="wrap_content"
-
-            android:id="@+id/shareafter"
-            android:src="@drawable/ic_share_white_24dp"
-
-            android:padding="2dp"
-            android:layout_margin="8dp"
-            />
-        <ImageButton
-            style="@style/imagebutton_style"
-            android:layout_height="wrap_content"
-
-            android:id="@+id/replay"
-            android:src="@drawable/ic_replay_white_24dp"
-
-            android:padding="2dp"
-            android:layout_margin="8dp"
-            />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/highscore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Previous Score:"
-        android:textStyle="italic"
         android:textSize="30sp"
-        android:textColor="#CA171B"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignLeft="@+id/linearLayout"
-        android:layout_alignStart="@+id/linearLayout" />
+        android:textStyle="italic"
+        android:layout_marginStart="66dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/highscore"
+        android:layout_marginTop="47dp"
+        app:layout_constraintTop_toBottomOf="@+id/gameover_txt"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="47dp"
+        app:layout_constraintLeft_toLeftOf="@+id/gameover_txt"
+        android:layout_marginLeft="66dp" />
 
     <TextView
         android:id="@+id/highscore_n"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/highscore"
+        android:layout_alignBottom="@+id/highscore"
+        android:layout_toEndOf="@+id/highscore"
+        android:layout_toRightOf="@+id/highscore"
         android:text="0"
         android:textColor="#CA171B"
         android:textSize="30sp"
-        android:layout_alignBaseline="@+id/highscore"
-        android:layout_alignBottom="@+id/highscore"
-        android:layout_toRightOf="@+id/highscore"
-        android:layout_toEndOf="@+id/highscore"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp" />
+        android:textStyle="italic"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/sum_n"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@+id/sum_n"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/sum_n" />
 
     <TextView
         android:id="@+id/sum_n"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+
+        android:layout_toEndOf="@+id/sum"
+        android:layout_toRightOf="@+id/sum"
         android:text="0"
         android:textColor="#CA171B"
-        android:textSize="40sp"
-        android:layout_above="@+id/linearLayout"
-        android:layout_toRightOf="@+id/sum"
-        android:layout_toEndOf="@+id/sum" />
+        android:textSize="30sp"
+        android:textStyle="italic"
+        android:layout_marginEnd="59dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/gameover_txt"
+        android:layout_marginTop="47dp"
+        app:layout_constraintTop_toBottomOf="@+id/gameover_txt"
+        android:layout_marginRight="59dp" />
+
+    <TextView
+        android:id="@+id/gameover_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="66dp"
+        android:text="GAME OVER"
+        android:textColor="#FFCA171B"
+        android:textSize="56sp"
+        android:layout_above="@+id/sum"
+        android:layout_alignLeft="@+id/sum"
+        android:layout_alignStart="@+id/sum"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="72dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/shareafter"
+        style="@style/imagebutton_style"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/highscore"
+
+        android:layout_toEndOf="@+id/highscore_n"
+        android:layout_toRightOf="@+id/highscore_n"
+        android:padding="2dp"
+        android:src="@drawable/ic_share_white_24dp"
+        android:layout_width="0dp"
+        android:layout_marginEnd="109dp"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        android:layout_marginStart="109dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="165dp"
+        app:layout_constraintLeft_toRightOf="@+id/home"
+        android:layout_marginLeft="109dp"
+        android:layout_marginRight="109dp" />
+
+    <ImageButton
+        android:id="@+id/replay"
+        style="@style/imagebutton_style"
+
+        android:layout_height="0dp"
 
 
-</RelativeLayout>
+        android:layout_toLeftOf="@+id/sum_n"
+        android:layout_toStartOf="@+id/sum_n"
+        android:padding="2dp"
+        android:src="@drawable/ic_replay_white_24dp"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="26dp"
+        app:layout_constraintRight_toLeftOf="@+id/shareafter"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/shareafter"
+        app:layout_constraintTop_toTopOf="@+id/shareafter"
+        android:layout_marginRight="26dp" />
+
+    <TextView
+        android:id="@+id/highscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sum"
+        android:layout_weight="1"
+        android:text="PRE SUM"
+        android:textColor="#CA171B"
+        android:textSize="30sp"
+        android:textStyle="italic"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="@+id/highscore_n"
+        app:layout_constraintRight_toRightOf="@+id/sum"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="@+id/highscore_n"
+        app:layout_constraintLeft_toRightOf="@+id/sum" />
+
+    <ImageButton
+        android:layout_height="wrap_content"
+        android:src="@drawable/home"
+        style="@style/imagebutton_style"
+        android:padding="2dp"
+        android:id="@+id/home"
+        android:layout_marginStart="38dp"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="38dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/sum"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/gameover_txt"
+        app:layout_constraintTop_toTopOf="@+id/replay"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="38dp" />
+
+
+</android.support.constraint.ConstraintLayout>

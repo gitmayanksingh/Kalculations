@@ -30,24 +30,44 @@ public class Back extends AppCompatActivity {
     File imagePath;
     ImageView bmImage;
     Bitmap bitmap;
-   View screen;
+    View screen;
     TextView highscore;
     TextView sum_n;
     TextView highscore_n;
+    ImageButton home;
+    int index;
 
     private static final String TAG = "MyActivity";
-    public static final String  PREFS_SCORE = "MyPrefsFile";
+    public static final String PREFS_SCORE = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_back);
 
-       screen = findViewById(R.id.screen);
+        screen = findViewById(R.id.screen);
         Replay_btn = (ImageButton) findViewById(R.id.replay);
         shareafter = (ImageButton) findViewById(R.id.shareafter);
         highscore = (TextView) findViewById(R.id.highscore);
         highscore_n = (TextView) findViewById(R.id.highscore_n);
+        home = (ImageButton) findViewById(R.id.home);
+
+        // Activity changes from Back.class to Front.class with taking a bundle
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(getApplicationContext(), Front.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("index1", index);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+        // Sharing Intent
 
         shareafter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +77,7 @@ public class Back extends AppCompatActivity {
                 shareIt();
             }
         });
+
         sum = (TextView) findViewById(R.id.sum);
         sum_n = (TextView) findViewById(R.id.sum_n);
 
@@ -64,22 +85,31 @@ public class Back extends AppCompatActivity {
         if (extras == null) {
             return;
         }
-// get data via the key
+// get data via the key from MainActivity
+
         Bundle b = getIntent().getExtras();
-        int index = b.getInt("index");
-        sum_n.setText(""+index);
+        index = b.getInt("index");
+        sum_n.setText("" + index);
+
+        //Send the data to front.class
+//        Intent intent = new Intent(this,Front.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("index1", index);
+//        intent.putExtras(bundle);
+//        startActivity(intent);
 
 
         Replay_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Back.this,MainActivity.class);
+                Intent i = new Intent(Back.this, MainActivity.class);
                 startActivity(i);
             }
         });
-        // For saving HIGH SCORE
-        SharedPreferences sharedPreferences =getSharedPreferences(PREFS_SCORE,MODE_PRIVATE);
-        String high =sharedPreferences.getString("High Score","");
+
+        // For  for getting saved preferences (saved HIGH SCORE)
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_SCORE, MODE_PRIVATE);
+        String high = sharedPreferences.getString("High Score", ""); // "" indicates default value is null
         highscore_n.setText(high);
 
 
@@ -89,7 +119,7 @@ public class Back extends AppCompatActivity {
     public Bitmap takeScreenshot() {
         View rootView = findViewById(android.R.id.content).getRootView();
         rootView.setDrawingCacheEnabled(true);
-         bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+        bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
         return bitmap;
 
     }
@@ -122,13 +152,13 @@ public class Back extends AppCompatActivity {
 
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
+// On Destroy Event
 
     @Override
-protected void onDestroy()
-    {
-        SharedPreferences sharedPreferences =getSharedPreferences(PREFS_SCORE,MODE_PRIVATE);
+    protected void onDestroy() {
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_SCORE, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("High Score",sum_n.getText().toString());
+        editor.putString("High Score", sum_n.getText().toString());
         editor.apply();
         super.onDestroy();
         Toast.makeText(this, "Thanks ! for playing", Toast.LENGTH_SHORT).show();

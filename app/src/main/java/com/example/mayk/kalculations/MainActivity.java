@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Function timmer() handle the timer
+
     private void timmer() {
         final Handler handler = new Handler();
         handler.post(new Runnable() {
@@ -68,11 +70,16 @@ public class MainActivity extends AppCompatActivity {
                 seconds--;
                 if (seconds < 0) {
 
+                    // Sends Intent to Back.class with a Bundle containing the Score ie 's'
+
                     Intent i = new Intent(MainActivity.this, Back.class);
                     Bundle bundle = new Bundle();
                     bundle.putInt("index", s);
                     i.putExtras(bundle);
                     startActivity(i);
+
+                    //  Sends the intent and stop the timer
+
                     stopTimer = true;
                 }
                 if (stopTimer == false) {
@@ -82,12 +89,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // For Generating Questions Randomly
+
     private void generateQuestions() {
         isResultRight = true;
         Random rand = new Random();
         int a = rand.nextInt(100);
         int b = rand.nextInt(100);
         int result = a + b;
+
+        // For generating the Wrong Output
+
         float f = rand.nextFloat();
         if (f > 0.5f) {
             result = rand.nextInt(100);
@@ -96,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
         question.setText(a + "+" + b);
         answer.setText("=" + result);
     }
+
+// For verifying the answers after pressing Right or Wrong button
 
     public void verifyAnswer(boolean a) {
         if (a == isResultRight) {
@@ -119,9 +133,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
 
+// When Activity life cycle is in onPause() state
+
     protected void onPause() {
         super.onPause();
-        stopTimer = false;
+        stopTimer = false; // the countdown won't stop
         finish();
     }
 

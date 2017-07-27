@@ -7,11 +7,20 @@
         <item name="colorPrimaryDark">#D1D3D4</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-    <style name="imagebutton_style">
-<item name="android:background">@drawable/button_backg</item>
-<item name="android:layout_width">0dp</item>
 
-<item name="android:layout_weight">1</item>
+    <style name="imagebutton_style">
+        <item name="android:background">@drawable/button_backg</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat.NoActionBar">
+      <item name="android:background">#d3d3d3</item> <!-- Or any transparency or color you need -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
 
     </style>
 
