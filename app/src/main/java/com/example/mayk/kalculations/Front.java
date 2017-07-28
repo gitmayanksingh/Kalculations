@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,9 +30,31 @@ public class Front extends AppCompatActivity {
 
     ImageButton B1,B2,B3;
     int index1;
+    Constant constant;
+    SharedPreferences.Editor editor;
+    SharedPreferences app_preferences;
+    int appTheme;
+    int themeColor;
+    int appColor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        appColor = app_preferences.getInt("color",0);
+        appTheme = app_preferences.getInt("theme",0);
+        themeColor = appColor;
+        constant.color =appColor;
+        if(themeColor==0)
+        {
+            setTheme(Constant.theme);
+        }else if (appTheme==0){
+            setTheme(Constant.theme);
+        }else{
+            setTheme(appTheme);
+        }
         setContentView(R.layout.activity_front);
 
         B1 = (ImageButton) findViewById(R.id.trophy);
@@ -58,6 +82,13 @@ public class Front extends AppCompatActivity {
         });
         B2 = (ImageButton) findViewById(R.id.play);
         B3 = (ImageButton) findViewById(R.id.setting);
+        B3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Front.this,Settings.class);
+                startActivity(intent);
+            }
+        });
 
         B2.setOnClickListener(new View.OnClickListener() {
             @Override

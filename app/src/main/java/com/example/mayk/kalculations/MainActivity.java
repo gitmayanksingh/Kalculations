@@ -2,8 +2,10 @@ package com.example.mayk.kalculations;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,13 +27,30 @@ public class MainActivity extends AppCompatActivity {
 
     boolean isResultRight;
     private int s = 0;
-
     private boolean stopTimer = false;
 
+    SharedPreferences app_preferences;
+    int appTheme;
+    int themeColor;
+    int appColor;
+    Constant constant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        appColor = app_preferences.getInt("color",0);
+        appTheme = app_preferences.getInt("theme",0);
+        themeColor = appColor;
+        constant.color = appColor;
+        if(themeColor==0)
+        {
+            setTheme(Constant.theme);
+        }else if (appTheme==0){
+            setTheme(Constant.theme);
+        }else{
+            setTheme(appTheme);
+        }
         setContentView(R.layout.activity_main);
 
         C = (TextView) findViewById(R.id.time);
@@ -73,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 if (seconds < 0) {
 
                     // Sends Intent to Back.class with a Bundle containing the Score ie 's'
-                  if(true == isResultRight) {
+
                       Intent i = new Intent(MainActivity.this, Back.class);
                       Bundle bundle = new Bundle();
                       bundle.putInt("index", s);
@@ -82,9 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
                       //  Sends the intent and stop the timer
                       stopTimer = true;
-                  }else{
 
-                  }
                 }
                 if (stopTimer == false) {
                     handler.postDelayed(this, 1000);

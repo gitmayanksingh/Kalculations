@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+
+
 public class Back extends AppCompatActivity {
 
     ImageButton Replay_btn;
@@ -37,12 +40,32 @@ public class Back extends AppCompatActivity {
     ImageButton home;
     int index;
 
+    SharedPreferences app_preferences;
+    int appTheme;
+    int themeColor;
+    int appColor;
+    Constant constant;
+
     private static final String TAG = "MyActivity";
     public static final String PREFS_SCORE = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        appColor = app_preferences.getInt("color",0);
+        appTheme = app_preferences.getInt("theme",0);
+        themeColor = appColor;
+        constant.color = appColor;
+        if(themeColor==0)
+        {
+            setTheme(Constant.theme);
+        }else if (appTheme==0){
+            setTheme(Constant.theme);
+        }else{
+            setTheme(appTheme);
+        }
         setContentView(R.layout.activity_back);
 
         screen = findViewById(R.id.screen);
