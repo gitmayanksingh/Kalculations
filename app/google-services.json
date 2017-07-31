@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "923010341811",
+    "firebase_url": "https://kalculations-93ecb.firebaseio.com",
+    "project_id": "kalculations-93ecb",
+    "storage_bucket": "kalculations-93ecb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923010341811:android:5d4e61a448a2daf4",
+        "android_client_info": {
+          "package_name": "com.example.mayk.kalculations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923010341811-2s68c3up01aug7if5eda1hu1segqh6kp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mayk.kalculations",
+            "certificate_hash": "968f7bd8920279e89169d5a6f29da143981cf21e"
+          }
+        },
+        {
+          "client_id": "923010341811-8jckr9cu3g6uga8fd9mrf2etes5348ih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFF9Qq6Ex7h6gssPPs1VASSbOLXN0URVc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923010341811-8jckr9cu3g6uga8fd9mrf2etes5348ih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

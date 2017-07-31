@@ -18,6 +18,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +31,10 @@ import static com.example.mayk.kalculations.R.id.high_score_data;
 
 public class Front extends AppCompatActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL =1 ;
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAl =2;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 1;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAl = 2;
 
-    ImageButton B1,B2,B3;
+    ImageButton B1, B2, B3;
     int index1;
     Constant constant;
     SharedPreferences.Editor editor;
@@ -36,6 +42,9 @@ public class Front extends AppCompatActivity {
     int appTheme;
     int themeColor;
     int appColor;
+    private ListView lv;
+
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,49 +52,70 @@ public class Front extends AppCompatActivity {
 
 
         app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        appColor = app_preferences.getInt("color",0);
-        appTheme = app_preferences.getInt("theme",0);
+        appColor = app_preferences.getInt("color", 0);
+        appTheme = app_preferences.getInt("theme", 0);
         themeColor = appColor;
-        constant.color =appColor;
-        if(themeColor==0)
-        {
+        constant.color = appColor;
+        if (themeColor == 0) {
             setTheme(Constant.theme);
-        }else if (appTheme==0){
+        } else if (appTheme == 0) {
             setTheme(Constant.theme);
-        }else{
+        } else {
             setTheme(appTheme);
         }
         setContentView(R.layout.activity_front);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         B1 = (ImageButton) findViewById(R.id.trophy);
-        final ListView lv = (ListView) findViewById(high_score_data);
+        lv = (ListView) findViewById(high_score_data);
 
         requestPermission();
         B1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             final AlertDialog.Builder builder = new AlertDialog.Builder(Front.this);
-                final View view =getLayoutInflater().inflate(R.layout.high_score,null);
 
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                highsore();
 
-                        Toast.makeText(Front.this, "Success", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                builder.setView(view);
-                builder.setCancelable(false);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+
+//             final AlertDialog.Builder builder = new AlertDialog.Builder(Front.this);
+//                final View view =getLayoutInflater().inflate(R.layout.high_score,null);
+//
+//                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                        Toast.makeText(Front.this, "Success", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                builder.setView(view);
+//                builder.setCancelable(false);
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
             }
         });
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if(dataSnapshot.getValue(String.class)!=null){
+//                    String key = dataSnapshot.getKey();
+//                    if(key.equals("Score")){
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
         B2 = (ImageButton) findViewById(R.id.play);
         B3 = (ImageButton) findViewById(R.id.setting);
         B3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Front.this,Settings.class);
+                Intent intent = new Intent(Front.this, Settings.class);
                 startActivity(intent);
             }
         });
@@ -94,17 +124,16 @@ public class Front extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(Front.this,MainActivity.class);
+                Intent i = new Intent(Front.this, MainActivity.class);
                 startActivity(i);
             }
         });
     }
 
-    private void requestPermission()
-    {
+    private void requestPermission() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(Front.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE )
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
@@ -130,7 +159,7 @@ public class Front extends AppCompatActivity {
         }
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(Front.this,
-                Manifest.permission.READ_EXTERNAL_STORAGE )
+                Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
@@ -156,6 +185,7 @@ public class Front extends AppCompatActivity {
             }
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -178,7 +208,7 @@ public class Front extends AppCompatActivity {
                 return;
             }
 
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAl:{
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAl: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -198,4 +228,43 @@ public class Front extends AppCompatActivity {
             // permissions this app might request
         }
     }
+
+    private void highsore() {
+        Bundle b = getIntent().getExtras();
+        index1 = b.getInt("index1");
+        String hScore = String.valueOf(index1); // Converting INT to STRING
+
+
+        // Creating a database reference ,making a root named Score and storing the value in "SCORE"
+        databaseReference.child("Score").child(hScore).setValue(true);
+
+
+        Toast.makeText(this, "Score added to database.", Toast.LENGTH_SHORT).show();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Front.this);
+        final View view = getLayoutInflater().inflate(R.layout.high_score, null);
+
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Toast.makeText(Front.this, "Success", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setView(view);
+        builder.setCancelable(false);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
+//    private void showData(DataSnapshot dataSnapshot){
+//
+//        HighscoreInfo hInfo = new HighscoreInfo();
+//        hInfo.setScore(dataSnapshot.getValue(HighscoreInfo.class).getScore());
+//        ArrayList<String> array = new ArrayList<>();
+//        array.add(hInfo.getScore());
+//        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array);
+//        lv.setAdapter(adapter);
+//    }
 }

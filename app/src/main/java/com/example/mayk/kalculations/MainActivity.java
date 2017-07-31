@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean stopTimer = false;
 
     SharedPreferences app_preferences;
+    public static final String PREFS_SCORE_SEEK = "MyPrefsFile";
     int appTheme;
     int themeColor;
     int appColor;
@@ -51,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
         }else{
             setTheme(appTheme);
         }
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_SCORE_SEEK,MODE_PRIVATE);
+        int seek_progress = sharedPreferences.getInt("progressChanged",10); // indicates default value is null
+         seconds=seek_progress;
+//        C.setText("TIME :" + seek_progress);
+
+
         setContentView(R.layout.activity_main);
 
         C = (TextView) findViewById(R.id.time);

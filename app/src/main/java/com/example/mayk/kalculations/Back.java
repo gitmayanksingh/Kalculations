@@ -81,7 +81,6 @@ public class Back extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 Intent intent = new Intent(getApplicationContext(), Front.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt("index1", index);
@@ -114,12 +113,7 @@ public class Back extends AppCompatActivity {
         index = b.getInt("index");
         sum_n.setText("" + index);
 
-        //Send the data to front.class
-//        Intent intent = new Intent(this,Front.class);
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("index1", index);
-//        intent.putExtras(bundle);
-//        startActivity(intent);
+
 
 
         Replay_btn.setOnClickListener(new View.OnClickListener() {
@@ -137,15 +131,15 @@ public class Back extends AppCompatActivity {
 
 
     }
-// To take the screenshot
+    // To take the screenshot
 
     private Bitmap takeScreenshot() {
         View rootView = findViewById(android.R.id.content).getRootView();
         rootView.setDrawingCacheEnabled(true);
         bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
         return bitmap;
-
     }
+
 // To save in the the local directory
 
     private void saveBitmap(Bitmap bitmap) {
