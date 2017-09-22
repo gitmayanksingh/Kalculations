@@ -1,1 +1,1 @@
-include ':app',':Material-Color-Picker-master'
+include ':app'

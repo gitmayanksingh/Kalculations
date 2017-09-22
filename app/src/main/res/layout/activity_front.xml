@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/front_main_layout"
     android:gravity="center"
     android:background="@color/color_main_bg"
     tools:context="com.example.mayk.kalculations.Front"
@@ -14,17 +15,33 @@
         android:layout_height="wrap_content"
         android:text="@string/kalculations"
         android:id="@+id/logotext"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:gravity="center"
-        android:textColor="@color/color_button"
+        android:textColor="@color/colorPrimary"
         android:textStyle="bold"
          />
+    <com.steelkiwi.library.IncrementProductView
+        android:id="@+id/product_view"
+        android:layout_below="@+id/logotext"
+        android:background="@android:color/transparent"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:ipv_highlight_background_color="@color/colorAccent"
+        app:ipv_default_background_color="@color/colorAccent"
+        app:ipv_counter_background_color="@color/colorAccent"
+        app:ipv_add_icon="@drawable/ic_timmer"
+        android:layout_marginStart="40dp">
+
+    </com.steelkiwi.library.IncrementProductView>
+
     <LinearLayout
+        android:id="@+id/front_menu_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/logotext"
-        android:padding="20dp">
+       android:layout_below="@+id/product_view"
+        android:padding="20dp"
+        android:layout_marginStart="24dp">
 
         <ImageButton
             style="@style/imagebutton_style"

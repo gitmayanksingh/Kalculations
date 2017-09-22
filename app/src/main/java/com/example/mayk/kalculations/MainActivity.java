@@ -6,16 +6,22 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.hanks.htextview.HTextView;
+import com.hanks.htextview.HTextViewType;
+import com.hanks.htextview.animatetext.HText;
 
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
     private int seconds = 10;
     TextView C;
     ImageButton right;
@@ -23,42 +29,22 @@ public class MainActivity extends AppCompatActivity {
     TextView question;
     TextView answer;
     TextView score;
-
-
     boolean isResultRight;
+    boolean endGameState;
     private int s = 0;
     private boolean stopTimer = false;
-
-    SharedPreferences app_preferences;
-    public static final String PREFS_SCORE_SEEK = "MyPrefsFile";
-    int appTheme;
-    int themeColor;
-    int appColor;
-    Constant constant;
-
+    public static final String MyTIMEPREFERENCES = "MyTimePrefs" ;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        app_preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        appColor = app_preferences.getInt("color",0);
-        appTheme = app_preferences.getInt("theme",0);
-        themeColor = appColor;
-        constant.color = appColor;
-        if(themeColor==0)
-        {
-            setTheme(Constant.theme);
-        }else if (appTheme==0){
-            setTheme(Constant.theme);
-        }else{
-            setTheme(appTheme);
-        }
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_SCORE_SEEK,MODE_PRIVATE);
-        int seek_progress = sharedPreferences.getInt("progressChanged",10); // indicates default value is null
-         seconds=seek_progress;
-//        C.setText("TIME :" + seek_progress);
-
-
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        timer();
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         C = (TextView) findViewById(R.id.time);
         right = (ImageButton) findViewById(R.id.right);
@@ -67,7 +53,14 @@ public class MainActivity extends AppCompatActivity {
         answer = (TextView) findViewById(R.id.answer);
         score = (TextView) findViewById(R.id.score);
 
-        timmer();
+//        sharedPreferences = getSharedPreferences(MyTIMEPREFERENCES, Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putInt("time", seconds);
+//        editor.apply();
+
+        getTime();
+
+
 
         right.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,32 +76,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
         generateQuestions();
+    }
 
+    private void getTime() {
+        Bundle bundle = getIntent().getExtras();
+        int time = bundle.getInt("time");
+        seconds = time;
+
+
+//        sharedPreferences = getSharedPreferences(MyTIMEPREFERENCES, Context.MODE_PRIVATE);
+//        C.setText("TIME :" + seconds);
+        if (seconds<0) {
+
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putInt("Pref_time",seconds);
+//        editor.apply();
+            C.setText("" + seconds);
+        }
     }
 
 
     // Function timmer() handle the timer
-
-    private void timmer() {
+    private void timer() {
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                C.setText("TIME :" + seconds);
+                C.setText("" + seconds);
                 seconds--;
+
                 if (seconds < 0) {
-
-                    // Sends Intent to Back.class with a Bundle containing the Score ie 's'
-
-                      Intent i = new Intent(MainActivity.this, Back.class);
-                      Bundle bundle = new Bundle();
-                      bundle.putInt("index", s);
-                      i.putExtras(bundle);
-                      startActivity(i);
-
-                      //  Sends the intent and stop the timer
-                      stopTimer = true;
-
+                    if (false == endGameState){
+                    endGame();
+                    stopTimer=true;}else{
+//                        Toast.makeText(MainActivity.this, "You did mistake ", Toast.LENGTH_SHORT).show();
+                        stopTimer=true;
+                    }
                 }
                 if (stopTimer == false) {
                     handler.postDelayed(this, 1000);
@@ -141,32 +144,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void verifyAnswer(boolean a) {
         if (a == isResultRight) {
+
             s = s + 1;
-            score.setText("SCORE :" + s);
+            score.setText("" + s);
             generateQuestions();
+
         } else {
             Vibrator vibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(1000);
-
-            Intent i = new Intent(MainActivity.this, Back.class);
-            Bundle bundle = new Bundle();
-            bundle.putInt("index", s);
-            i.putExtras(bundle);
-            startActivity(i);
-            stopTimer = true;
-
+            endGame();
+            endGameState=true;
         }
-
     }
 
+    private void endGame() {
+
+        Intent i = new Intent(MainActivity.this, Back.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("index", s);
+        bundle.putInt("time",seconds);
+        i.putExtras(bundle);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        stopTimer = true;
+    }
+
+    // When Activity life cycle is in onPause() state
     @Override
-
-// When Activity life cycle is in onPause() state
-
     protected void onPause() {
         super.onPause();
-        stopTimer = false; // the countdown won't stop
+        stopTimer = false;// the countdown won't stop
         finish();
     }
+
 
 }
